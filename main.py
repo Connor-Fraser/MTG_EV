@@ -1,9 +1,11 @@
-from sets import getOfficialSets
-from scryfallAPI import api
-
+from sets import getOfficialSets, getCardsFromSet
 
 officialSets = getOfficialSets()
-print(officialSets[0])
+for x in range(1,10):
+    print(officialSets[x])
 
-cards = api.getCardList('war')
-print('hi')
+print('\n******************************\n')
+
+warCardList = getCardsFromSet('war')
+for x in range(1,15):
+    print(warCardList[x])
