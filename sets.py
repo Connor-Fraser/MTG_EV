@@ -1,8 +1,16 @@
 from scryfallAPI import api
-from models import cardSet
+
+class Set:
+    def __init__(self, code, name):
+        self.code = code
+        self.name = name
+
+    def __str__(self):
+        return self.code + ': ' + self.name
+
 
 def __setMappingFn__(rawSet):
-    return cardSet.Set(rawSet['code'], rawSet['name'])
+    return Set(rawSet['code'], rawSet['name'])
 
 def getAllSetsRaw():
     return api.getSetList()
