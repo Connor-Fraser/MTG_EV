@@ -1,4 +1,5 @@
 from scryfallAPI import api
+from functools import lru_cache
 
 class Set:
     def __init__(self, code, name):
@@ -31,16 +32,19 @@ def __cardMappingFn__(rawCard):
 def getAllSetsRaw():
     return api.getSetList()
 
+@lru_cache
 def getAllSets():
     allSetsRaw = getAllSetsRaw()
     return list(map(__setMappingFn__, allSetsRaw))
 
+@lru_cache
 def getOfficialSets():
     allSets = getAllSetsRaw()
     officialSetsRaw = filter(lambda rawSet: len(rawSet['code']) == 3, allSets) #Official sets have a three letter code
     officialSets = list(map(__setMappingFn__, officialSetsRaw))
     return officialSets
 
+@lru_cache(maxsize=15)
 def getCardsFromSet(setCode):
     cardListRaw = api.getCardList(setCode)
     setCardList = list(map(__cardMappingFn__, cardListRaw))
