@@ -9,10 +9,11 @@ class Set:
         return self.code + ': ' + self.name
 
 class Card:
-    def __init__(self, id, name, rarity, booster, price, foilPrice=None):
+    def __init__(self, id, name, rarity, cardType, booster, price, foilPrice=None):
         self.id = id
         self.name = name
         self.rarity = rarity
+        self.type = cardType
         self.booster = booster
         self.price = price
         self.foilPrice = foilPrice
@@ -25,7 +26,7 @@ def __setMappingFn__(rawSet):
 
 def __cardMappingFn__(rawCard):
     foilPrice = rawCard['prices']['usd_foil'] if rawCard['foil'] else None 
-    return Card(rawCard['id'], rawCard['name'], rawCard['rarity'], rawCard['booster'], rawCard['prices']['usd'], foilPrice)
+    return Card(rawCard['id'], rawCard['name'], rawCard['rarity'], rawCard['type_line'], rawCard['booster'], rawCard['prices']['usd'], foilPrice)
 
 def getAllSetsRaw():
     return api.getSetList()
