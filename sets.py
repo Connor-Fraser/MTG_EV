@@ -9,6 +9,10 @@ class Set:
     def __str__(self):
         return self.code + ': ' + self.name
 
+    @staticmethod
+    def apiMappingFn(rawSet):
+        return Set(rawSet['code'], rawSet['name'])
+
 class Card:
     def __init__(self, id, name, rarity, cardType, booster, price, foilPrice=None):
         self.id = id
@@ -22,12 +26,11 @@ class Card:
     def __str__(self):
         return "{}  ({}): ${}   F${}".format(self.name, self.rarity, self.price, self.foilPrice)
 
-def __setMappingFn__(rawSet):
-    return Set(rawSet['code'], rawSet['name'])
+    @staticmethod
+    def apiMappingFn(rawCard):
+        foilPrice = rawCard['prices']['usd_foil'] if rawCard['foil'] else None 
+        return Card(rawCard['id'], rawCard['name'], rawCard['rarity'], rawCard['type_line'], rawCard['booster'], rawCard['prices']['usd'], foilPrice)
 
-def __cardMappingFn__(rawCard):
-    foilPrice = rawCard['prices']['usd_foil'] if rawCard['foil'] else None 
-    return Card(rawCard['id'], rawCard['name'], rawCard['rarity'], rawCard['type_line'], rawCard['booster'], rawCard['prices']['usd'], foilPrice)
 
 def getAllSetsRaw():
     return api.getSetList()
@@ -35,17 +38,17 @@ def getAllSetsRaw():
 @lru_cache
 def getAllSets():
     allSetsRaw = getAllSetsRaw()
-    return list(map(__setMappingFn__, allSetsRaw))
+    return list(map(Set.apiMappingFn, allSetsRaw))
 
 @lru_cache
 def getOfficialSets():
     allSets = getAllSetsRaw()
     officialSetsRaw = filter(lambda rawSet: len(rawSet['code']) == 3, allSets) #Official sets have a three letter code
-    officialSets = list(map(__setMappingFn__, officialSetsRaw))
+    officialSets = list(map(Set.apiMappingFn, officialSetsRaw))
     return officialSets
 
 @lru_cache(maxsize=15)
 def getCardsFromSet(setCode):
     cardListRaw = api.getCardList(setCode)
-    setCardList = list(map(__cardMappingFn__, cardListRaw))
+    setCardList = list(map(Card.apiMappingFn, cardListRaw))
     return setCardList
