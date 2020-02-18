@@ -1,5 +1,5 @@
-from sets import getOfficialSets
-from cards import getCardsFromSet
+from setInfo import getOfficialSets
+from cardInfo import getCardsFromSet
 
 officialSets = getOfficialSets()
 for x in range(1,10):
