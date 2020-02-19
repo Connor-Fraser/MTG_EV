@@ -22,14 +22,23 @@ class SetSubGroup:
         self.groupAveragePrice /= self.subGroupCount
         self.groupAverageFoilPrice /= self.subGroupFoilCount
 
+    def __len__(self):
+        return len(self.subGroupCards)
+
+    def __getitem__(self, cardIndex):
+        return self.subGroupCards[cardIndex]
+
 class CardSet:
     def __init__(self, setInfo, setBoosterConfig):
         self.set = setInfo
         self.setCardList = getCardsFromSet(self.set.code)
         self.packSize = setBoosterConfig['packSize']
-        self.generatePack = setBoosterConfig['generatePackFn']
-        self.boosterEv = setBoosterConfig['boosterEVFn']
+        self.boosterFactory = setBoosterConfig['generatePackFn']
+        self.EVFactory = setBoosterConfig['boosterEVFn']
         self.subGroups = {}
 
         for key, value in setBoosterConfig['setSubGroups'].items():
             self.subGroups[key] = SetSubGroup(self.setCardList, key, value)
+
+    def generateBooster(self):
+        return self.boosterFactory(self.subGroups)

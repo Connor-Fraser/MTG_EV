@@ -16,4 +16,5 @@ for x in range(1,15):
 print('\n******************************\n')
 
 TBDCardSet = CardSet(officialSets[1], BASE_CONFIG)
-print('hello')
+TBDBooster = TBDCardSet.generateBooster()
+print(TBDBooster)
