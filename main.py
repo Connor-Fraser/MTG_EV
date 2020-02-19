@@ -18,3 +18,6 @@ print('\n******************************\n')
 TBDCardSet = CardSet(officialSets[1], BASE_CONFIG)
 TBDBooster = TBDCardSet.generateBooster()
 print(TBDBooster)
+
+print('\n******************************\n')
+print('TBD Booster EV: ' + str(TBDCardSet.boosterEV))

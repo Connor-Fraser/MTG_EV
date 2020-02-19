@@ -34,11 +34,12 @@ class CardSet:
         self.setCardList = getCardsFromSet(self.set.code)
         self.packSize = setBoosterConfig['packSize']
         self.boosterFactory = setBoosterConfig['generatePackFn']
-        self.EVFactory = setBoosterConfig['boosterEVFn']
         self.subGroups = {}
 
         for key, value in setBoosterConfig['setSubGroups'].items():
             self.subGroups[key] = SetSubGroup(self.setCardList, key, value)
+
+        self.boosterEV = setBoosterConfig['boosterEVFn'](self.subGroups)
 
     def generateBooster(self):
         return self.boosterFactory(self.subGroups)
