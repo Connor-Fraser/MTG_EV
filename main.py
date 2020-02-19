@@ -1,7 +1,6 @@
 from setInfo import getOfficialSets
 from cardInfo import getCardsFromSet
 from cardSets import CardSet
-from setConfigs import BASE_CONFIG
 
 officialSets = getOfficialSets()
 for x in range(1,10):
@@ -15,7 +14,7 @@ for x in range(1,15):
 
 print('\n******************************\n')
 
-TBDCardSet = CardSet(officialSets[1], BASE_CONFIG)
+TBDCardSet = CardSet(officialSets[1])
 TBDBooster = TBDCardSet.generateBooster()
 print(TBDBooster)
 

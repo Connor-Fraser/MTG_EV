@@ -1,4 +1,5 @@
 import random
+import consts
 from booster import Booster
 
 '''
@@ -25,8 +26,8 @@ def noop():
 
 def baseGeneratePack(subGroups): 
     "For Base Config - Accuarte for Shards of Alara onwards not counting special sets like War of The Spark. See: https://mtg.gamepedia.com/Booster_pack"
-    isMythicUpgrade = True if random.randint(1,8) == 1 else False   #1/8 chance of rare upgrade to mythic
-    isBonusFoil = True if random.randint(1,8) == 1 else False       #1/8 chance of foil from the set
+    isMythicUpgrade = True if random.randint(consts.BASE_MYTHIC_RANGE_L, consts.BASE_MYTHIC_RANGE_H) == 1 else False
+    isBonusFoil = True if random.randint(consts.BASE_BONUS_FOIL_RANGE_L, consts.BASE_BONUS_FOIL_RANGE_H) == 1 else False
     packList = []
     foilList = []
 
@@ -38,29 +39,36 @@ def baseGeneratePack(subGroups):
     if isBonusFoil:
         foilList.append(random.choice(subGroups['foil']))
 
-    packList.extend(random.choices(subGroups['uncommon'], k=3))
-    packList.extend(random.choices(subGroups['common'], k=10))
+    packList.extend(random.choices(subGroups['uncommon'], k = consts.BASE_UNCOMMON_COUNT))
+    packList.extend(random.choices(subGroups['common'], k = consts.BASE_COMMON_COUNT))
     return Booster(packList, foilList)
 
 def basePackEV(subGroups):
     "See baseGeneratePack"
-    mythicEV = 1/8*subGroups['mythic'].groupAveragePrice
-    rareEV = 7/8*subGroups['rare'].groupAveragePrice
-    uncommonEV = 3*subGroups['uncommon'].groupAveragePrice
-    commonEV = 10*subGroups['common'].groupAveragePrice
-    foilEV = 1/8*subGroups['foil'].groupAverageFoilPrice
+    mythicEV = consts.BASE_MYTHIC_CHANCE*subGroups['mythic'].groupAveragePrice
+    rareEV = consts.BASE_RARE_CHANCE*subGroups['rare'].groupAveragePrice
+    
+    uncommonEV = consts.BASE_UNCOMMON_COUNT*subGroups['uncommon'].groupAveragePrice
+    commonEV = consts.BASE_COMMON_COUNT*subGroups['common'].groupAveragePrice
+    
+    foilEV = consts.BASE_BONUS_FOIL_CHANCE*subGroups['foil'].groupAverageFoilPrice
+    
     return mythicEV + rareEV + uncommonEV + commonEV + foilEV
 
 BASE_CONFIG = {
     'packSize': 15,
     'setSubGroups': {
         'foil': lambda card: card.foilPrice and card.booster,
-        'common': lambda card: card.rarity == "common" and card.booster,
-        'uncommon': lambda card: card.rarity == "uncommon" and card.booster,
-        'rare': lambda card: card.rarity == "rare" and card.booster,
-        'mythic': lambda card: card.rarity == "mythic" and card.booster
+        'common': lambda card: card.rarity == consts.RARITY_COMMON and card.booster,
+        'uncommon': lambda card: card.rarity == consts.RARITY_UNCOMMON and card.booster,
+        'rare': lambda card: card.rarity == consts.RARITY_RARE and card.booster,
+        'mythic': lambda card: card.rarity == consts.RARITY_MYTHIC and card.booster
     },
 
     'generatePackFn': baseGeneratePack,
     'boosterEVFn': basePackEV
+}
+
+SET_MAPPING = {
+    consts.WAR_SET_CODE: BASE_CONFIG
 }

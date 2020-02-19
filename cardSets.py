@@ -1,4 +1,5 @@
 from cardInfo import getCardsFromSet
+from setConfigs import SET_MAPPING, BASE_CONFIG
 
 class SetSubGroup:
     def __init__(self, setCardList, name, filter):
@@ -29,9 +30,11 @@ class SetSubGroup:
         return self.subGroupCards[cardIndex]
 
 class CardSet:
-    def __init__(self, setInfo, setBoosterConfig):
+    def __init__(self, setInfo):
         self.set = setInfo
         self.setCardList = getCardsFromSet(self.set.code)
+        
+        setBoosterConfig = SET_MAPPING[self.set.code] if self.set.code in SET_MAPPING.keys() else BASE_CONFIG
         self.packSize = setBoosterConfig['packSize']
         self.boosterFactory = setBoosterConfig['generatePackFn']
         self.subGroups = {}
