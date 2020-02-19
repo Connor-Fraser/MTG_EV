@@ -16,8 +16,9 @@ class Card:
 
     @staticmethod
     def apiMappingFn(rawCard):
-        foilPrice = rawCard['prices']['usd_foil'] if rawCard['foil'] else None 
-        return Card(rawCard['id'], rawCard['name'], rawCard['rarity'], rawCard['type_line'], rawCard['booster'], rawCard['prices']['usd'], foilPrice)
+        price = float(rawCard['prices']['usd']) if rawCard['prices']['usd'] else None
+        foilPrice = float(rawCard['prices']['usd_foil']) if rawCard['prices']['usd_foil'] else None 
+        return Card(rawCard['id'], rawCard['name'], rawCard['rarity'], rawCard['type_line'], rawCard['booster'], price, foilPrice)
 
 @lru_cache(maxsize=15)
 def getCardsFromSet(setCode):
