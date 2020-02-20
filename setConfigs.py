@@ -47,12 +47,9 @@ def basePackEV(subGroups):
     "See baseGeneratePack"
     mythicEV = consts.BASE_MYTHIC_CHANCE*subGroups['mythic'].groupAveragePrice
     rareEV = consts.BASE_RARE_CHANCE*subGroups['rare'].groupAveragePrice
-    
     uncommonEV = consts.BASE_UNCOMMON_COUNT*subGroups['uncommon'].groupAveragePrice
     commonEV = consts.BASE_COMMON_COUNT*subGroups['common'].groupAveragePrice
-    
     foilEV = consts.BASE_BONUS_FOIL_CHANCE*subGroups['foil'].groupAverageFoilPrice
-    
     return mythicEV + rareEV + uncommonEV + commonEV + foilEV
 
 BASE_CONFIG = {
@@ -69,6 +66,30 @@ BASE_CONFIG = {
     'boosterEVFn': basePackEV
 }
 
+def warGeneratePack(subGroups):
+    pass
+
+def warPackEV(subGroups):
+    pass
+
+WAR_CONFIG = {
+    'packSize': 15,
+    'setSubGroups': {
+        'foil': lambda card: card.foilPrice and card.booster,
+        'common': lambda card: card.rarity == consts.RARITY_COMMON and card.booster,
+        'uncommonNoPW': lambda card: card.rarity == consts.RARITY_UNCOMMON and card.booster and 'Planeswalker' not in card.type,
+        'rareNoPW': lambda card: card.rarity == consts.RARITY_RARE and card.booster and 'Planeswalker' not in card.type,
+        'mythicNoPW': lambda card: card.rarity == consts.RARITY_MYTHIC and card.booster and 'Planeswalker' not in card.type,
+        'uncommonPW': lambda card: card.rarity == consts.RARITY_UNCOMMON and card.booster and 'Planeswalker' in card.type,
+        'rarePW': lambda card: card.rarity == consts.RARITY_RARE and card.booster and 'Planeswalker' in card.type,
+        'mythicPW': lambda card: card.rarity == consts.RARITY_MYTHIC and card.booster and 'Planeswalker' in card.type,
+        'planeswalker': lambda card: card.rarity == card.booster and 'Planeswalker' in card.type,
+    },
+
+    'generatePackFn': warGeneratePack,
+    'boosterEVFn': warPackEV
+}
+
 SET_MAPPING = {
-    consts.WAR_SET_CODE: BASE_CONFIG
+    consts.WAR_SET_CODE: WAR_CONFIG
 }
