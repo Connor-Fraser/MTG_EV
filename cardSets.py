@@ -20,8 +20,11 @@ class SetSubGroup:
                     self.groupAverageFoilPrice += card.foilPrice
                     self.subGroupFoilCount += 1
 
-        self.groupAveragePrice /= self.subGroupCount
-        self.groupAverageFoilPrice /= self.subGroupFoilCount
+        if self.subGroupCount != 0:
+            self.groupAveragePrice /= self.subGroupCount
+        
+        if self.subGroupFoilCount != 0:
+            self.groupAverageFoilPrice /= self.subGroupFoilCount
 
     def __len__(self):
         return len(self.subGroupCards)
