@@ -1,5 +1,6 @@
 from scryfallAPI import getSetList
 from functools import lru_cache
+from setConfigs import INVALID_SETS
 
 class Set:
     def __init__(self, code, name):
@@ -24,6 +25,6 @@ def getAllSets():
 @lru_cache
 def getOfficialSets():
     allSets = getAllSetsRaw()
-    officialSetsRaw = filter(lambda rawSet: len(rawSet['code']) == 3, allSets) #Official sets have a three letter code
+    officialSetsRaw = filter(lambda rawSet: len(rawSet['code']) == 3 and rawSet['code'] not in INVALID_SETS, allSets) #Official sets have a three letter code
     officialSets = list(map(Set.apiMappingFn, officialSetsRaw))
     return officialSets

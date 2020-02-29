@@ -93,3 +93,16 @@ WAR_CONFIG = {
 SET_MAPPING = {
     consts.WAR_SET_CODE: WAR_CONFIG
 }
+
+INVALID_SETS = [
+    "j20","ha1","gn2","ptg","c19","ss2","j19","gk2","uma","g18","gnt","gk1",
+    "c18","ana","gs1","ss1","bbd","cm2","ddu","a25","j18","f18","v17","ima","ddt","g17","h17","htr","c17",
+    "e01","cma","w17","dds","mm3","l17","f17","j17","pca","pz2","c16","v16","ema","w16","ddq","ogw","l16",
+    "j16","f16","pz1","c15","exp","ddp","v15","cp3","ori","mm2","tpr","ddo","cp2","l15","j15","f15","gvl",
+    "evg","dvd","jvc","c14","ddn","v14","cp1","vma","md1","ddm","l14","f14","j14","c13","ddl","v13","ddk",
+    "l13","f13","j13","cm1","ddj","v12","pc2","ddi","l12","f12","j12","pd3","ddh","v11","cmd","td2","ddg",
+    "me4","p11","f11","g11","pd2","td0","ddf","v10","dpa","dde","f10","g10","p10","h09","ddd","me3","hop",
+    "v09","ddc","f09","p09","g09","dd2","me2","drb","f08","p08","g08","dd1","me1","p07","f07","g07","cst",
+    "f06","p06","g06","f05","p05","g05","p04","f04","g04","p03","f03","g03","phj","prm","p02","f02","g02",
+    "dkm","f01","g01","btd","s00","fnm","g00","brb","s99","g99","jgp","itp","mgb","rqs","ptc","cei","ced",
+]
